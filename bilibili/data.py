@@ -20,19 +20,21 @@ class Video:
         self.link = PLAYER_BASE + self.bv
         resp = requests.get(VIDEO_API + self.bv, headers=HEADER).text
         data = json.loads(resp)
-        data = data['data']
-        self.aid = data['aid']
-        self.view = data['view']
-        self.danmaku = data['danmaku']
-        self.favorite = data['favorite']
-        self.coin = data['coin']
-        self.like = data['like']
-        detail_resp = requests.get(DETAIL_API + str(self.aid), headers=HEADER).text
-        detail = json.loads(detail_resp)
-        detail = detail['data']
-        self.desc = detail['View']['desc']
-        self.title = detail['View']['title']
-        self.up = detail['View']['owner']['name']
+        if data['code'] == 0:
+            data = data['data']
+            self.aid = data['aid']
+            self.view = data['view']
+            self.danmaku = data['danmaku']
+            self.favorite = data['favorite']
+            self.coin = data['coin']
+            self.like = data['like']
+            detail_resp = requests.get(DETAIL_API + str(self.aid), headers=HEADER).text
+            detail = json.loads(detail_resp)
+            if detail['code'] == 0:
+                detail = detail['data']
+                self.desc = detail['View']['desc']
+                self.title = detail['View']['title']
+                self.up = detail['View']['owner']['name']
 
     def get_formatted(self):
         # idk why i cant pass 'style' directly in to the Text object
