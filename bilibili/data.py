@@ -42,7 +42,7 @@ class Video:
         title.stylize(f'link {self.link}')
         return {
             'title': title,
-            'stats': Text(f'👀{self.view} 🔵{self.coin} ⭐{self.favorite}'),
+            'stats': Text(f'👀{self.view} 👍{self.like} 🔵{self.coin} ⭐{self.favorite}'),
             'up': Text(self.up),
             'desc': Text(self.desc if self.desc else 'no description')
         }
