@@ -40,3 +40,28 @@ class ListLayoutRenderer(Renderer):
         for video in videos:
             self.render_video(video)
         self.console.print(Rule(style='bright_yellow'))
+
+class TableLayoutRenderer(Renderer):
+    def __init__(self):
+        self.table = Table(leading=1)
+        super().__init__()
+
+    def render_video(self, video: Video):
+        title = Text(video.title)
+        title.stylize(f'link {video.link}')
+        stats = Text(f'👀 {video.view} 🪙 {video.coin} ⭐ {video.favorite}')
+        up = Text(video.up)
+        desc = Text(video.desc if video.desc else 'no description')
+        self.table.add_row(title, up, desc, stats)
+
+    def render_videos(self, videos: [Video]):
+        # make the columns
+        self.table.add_column("Title", style="bold cyan")
+        self.table.add_column("UP", style="green")
+        self.table.add_column("Description", style="blue")
+        self.table.add_column("Stats", style="magenta")
+
+        for video in videos:
+            self.render_video(video)
+        self.console.print(self.table)
+        self.console.print(Rule(style='bright_yellow'))
