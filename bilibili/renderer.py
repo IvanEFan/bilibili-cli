@@ -1,4 +1,6 @@
+from rich.columns import Columns
 from rich.console import Console
+from rich.panel import Panel
 from rich.rule import Rule
 from rich.table import Table
 from rich.text import Text
@@ -65,3 +67,34 @@ class TableLayoutRenderer(Renderer):
             self.render_video(video)
         self.console.print(self.table)
         self.console.print(Rule(style='bright_yellow'))
+
+class GridLayoutRenderer(Renderer):
+    def __init__(self):
+        self.panels = []
+        super().__init__()
+
+    def render_video(self, video: Video):
+        formatted = video.get_formatted()
+        title = formatted['title']
+        title.stylize('bold')
+        stats = formatted['stats']
+        stats.stylize('blue')
+        up = formatted['up']
+        up.stylize('magenta')
+        desc = formatted['desc']
+        desc.truncate(90, overflow='ellipsis')
+        summary = Text.assemble(
+            title,
+            '\n',
+            stats,
+            '\n',
+            up,
+            '\n',
+            desc
+        )
+        self.panels.append(Panel(summary, expand=True))
+
+    def render_videos(self, videos: [Video]):
+        for video in videos:
+            self.render_video(video)
+        self.console.print(Columns(self.panels, width=30, expand=True))
