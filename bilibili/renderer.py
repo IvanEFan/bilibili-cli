@@ -69,7 +69,6 @@ class TableLayoutRenderer(Renderer):
         for video in videos:
             self.render_video(video)
         self.console.print(self.table)
-        self.console.print(Rule(style='bright_yellow'))
 
 class GridLayoutRenderer(Renderer):
     def __init__(self):
