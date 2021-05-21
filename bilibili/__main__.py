@@ -1,6 +1,6 @@
 import click
 from bilibili import data
-from bilibili.renderer import TableLayoutRenderer
+from bilibili.renderer import ListLayoutRenderer, TableLayoutRenderer
 
 @click.command()
 def cli():

@@ -2,6 +2,7 @@ import json
 
 import requests
 from bs4 import BeautifulSoup
+from rich.text import Text
 
 VIDEO_API = 'https://api.bilibili.com/x/web-interface/archive/stat?bvid='
 DETAIL_API = 'https://api.bilibili.com/x/web-interface/view/detail?aid='
@@ -32,6 +33,17 @@ class Video:
         self.desc = detail['View']['desc']
         self.title = detail['View']['title']
         self.up = detail['View']['owner']['name']
+
+    def get_formatted(self):
+        # idk why i cant pass 'style' directly in to the Text object
+        title = Text(self.title)
+        title.stylize(f'link {self.link}')
+        return {
+            'title': title,
+            'stats': Text(f'👀 {self.view} 🪙 {self.coin} ⭐ {self.favorite}'),
+            'up': Text(self.up),
+            'desc': Text(self.desc if self.desc else 'no description')
+        }
 
 def get_rank(count=5):
     resp = requests.get(RANK).text

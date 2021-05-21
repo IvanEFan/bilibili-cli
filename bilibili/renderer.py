@@ -21,19 +21,23 @@ class ListLayoutRenderer(Renderer):
 
     def render_video(self, video: Video):
         self.console.print(Rule(style='bright_yellow'))
+        formatted = video.get_formatted()
         grid = Table.grid(expand=True)
         grid.add_column()
         grid.add_column(justify='right')
-        title = Text(video.title)
-        title.stylize(f'yellow link {video.link}')
-        stats = Text(f'👀 {video.view} 🪙 {video.coin} ⭐ {video.favorite}')
-        grid.add_row(title, stats)
+
+        grid.add_row(formatted['title'], formatted['stats'])
         grid.add_row()
-        up = Text(video.up, style='bold')
+
+        up = formatted['up']
+        up.stylize('bold')
         grid.add_row(up)
         grid.add_row()
-        desc = Text(video.desc if video.desc else 'no description', style='green')
+
+        desc = formatted['desc']
+        desc.stylize('green')
         grid.add_row(desc)
+
         self.console.print(grid)
 
     def render_videos(self, videos: [Video]):
@@ -47,12 +51,8 @@ class TableLayoutRenderer(Renderer):
         super().__init__()
 
     def render_video(self, video: Video):
-        title = Text(video.title)
-        title.stylize(f'link {video.link}')
-        stats = Text(f'👀 {video.view} 🪙 {video.coin} ⭐ {video.favorite}')
-        up = Text(video.up)
-        desc = Text(video.desc if video.desc else 'no description')
-        self.table.add_row(title, up, desc, stats)
+        formatted = video.get_formatted()
+        self.table.add_row(formatted['title'], formatted['up'], formatted['desc'], formatted['stats'])
 
     def render_videos(self, videos: [Video]):
         # make the columns
