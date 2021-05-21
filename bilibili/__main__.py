@@ -1,11 +1,12 @@
 import click
 from bilibili import data
+from bilibili.renderer import Renderer
 
 @click.command()
 def cli():
     pass
 
 if __name__ == '__main__':
-    data.get_rank()
-    # data.get_popular_weekly()
+    renderer = Renderer()
+    renderer.render_videos(data.get_rank())
     cli()
