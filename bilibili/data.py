@@ -45,7 +45,7 @@ class Video:
             'desc': Text(self.desc if self.desc else 'no description')
         }
 
-def get_rank(count=5):
+def get_rank(count=15):
     resp = requests.get(RANK).text
     soup = BeautifulSoup(resp, features='html.parser')
     videos = soup.select('.rank-item > .content > .info > a')

@@ -38,6 +38,7 @@ class ListLayoutRenderer(Renderer):
 
         desc = formatted['desc']
         desc.stylize('green')
+        desc.truncate(90, overflow='ellipsis')
         grid.add_row(desc)
 
         self.console.print(grid)
@@ -54,7 +55,9 @@ class TableLayoutRenderer(Renderer):
 
     def render_video(self, video: Video):
         formatted = video.get_formatted()
-        self.table.add_row(formatted['title'], formatted['up'], formatted['desc'], formatted['stats'])
+        desc = formatted['desc']
+        desc.truncate(90, overflow='ellipsis')
+        self.table.add_row(formatted['title'], formatted['up'], desc, formatted['stats'])
 
     def render_videos(self, videos: [Video]):
         # make the columns
