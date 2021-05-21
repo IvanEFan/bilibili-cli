@@ -10,6 +10,16 @@ class Renderer:
         self.console = Console()
 
     def render_video(self, video: Video):
+        pass
+
+    def render_videos(self, videos: [Video]):
+        pass
+
+class ListLayoutRenderer(Renderer):
+    def __init__(self):
+        super().__init__()
+
+    def render_video(self, video: Video):
         self.console.print(Rule(style='bright_yellow'))
         grid = Table.grid(expand=True)
         grid.add_column()
