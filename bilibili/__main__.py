@@ -1,9 +1,10 @@
 import click
+from rich.rule import Rule
 
 from bilibili import data
 from bilibili.renderer import ListLayoutRenderer, TableLayoutRenderer, GridLayoutRenderer
 
-@click.command()
+@click.group(invoke_without_command=True)
 @click.option(
     '--layout',
     '-L',
@@ -17,15 +18,25 @@ from bilibili.renderer import ListLayoutRenderer, TableLayoutRenderer, GridLayou
     default=15,
     help="Limit the number of results. Default: 15",
 )
-def cli(layout, limit_results):
+@click.pass_context
+def cli(ctx, layout, limit_results):
+    if ctx.invoked_subcommand is None:
+        renderer = ListLayoutRenderer()
+        if layout == 'table':
+            renderer = TableLayoutRenderer()
+        elif layout == 'grid':
+            renderer = GridLayoutRenderer()
+        with renderer.console.status('[bold green]Loading data...'):
+            renderer.render_videos(data.get_rank(count=limit_results))
+
+@cli.command()
+@click.argument('vid')
+def info(vid):
+    video = data.Video(vid)
     renderer = ListLayoutRenderer()
-    if layout == 'table':
-        renderer = TableLayoutRenderer()
-    elif layout == 'grid':
-        renderer = GridLayoutRenderer()
     with renderer.console.status('[bold green]Loading data...'):
-        renderer.render_videos(data.get_rank(count=limit_results))
-    pass
+        renderer.render_video(video)
+        renderer.console.print(Rule(style='bright_yellow'))
 
 if __name__ == '__main__':
     cli()
