@@ -33,7 +33,9 @@ class ListLayoutRenderer(Renderer):
 
         up = formatted['up']
         up.stylize('bold')
-        grid.add_row(up)
+        bv = formatted['bv']
+        bv.stylize('bright_black')
+        grid.add_row(up, bv)
         grid.add_row()
 
         desc = formatted['desc']

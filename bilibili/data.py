@@ -42,6 +42,7 @@ class Video:
         title = Text(self.title)
         title.stylize(f'link {self.link}')
         return {
+            'bv': Text(self.bv),
             'title': title,
             'stats': Text(f'👀{self.view} 👍{self.like} 🔵{self.coin} ⭐{self.favorite}'),
             'up': Text(self.up),
